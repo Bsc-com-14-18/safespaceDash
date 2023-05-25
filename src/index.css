@@ -1,13 +1,94 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+  font-family: 'Times New Roman', Times, serif;
+  color: black;
+  }
+  
+  .navbar{
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  margin: 0 auto;
+  border-bottom: 0px solid black;
+  background-color: rgb(50, 0, 85);
+  border-radius: 0px;
+  
+  }
+  
+  .navbar h1{
+    color: White;
+  
+  }
+  
+  .navbar .links{
+    margin-left: auto;
+    
+  }
+  
+  .navbar a{
+    margin-left: 16px;
+    text-decoration: none;
+    padding: 6px;
+    color: white;
+    margin: 0px;
+  }
+  .navbar a:hover{
+    color: black;
+  }
+  
+  .content{
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  .cases{
+     border: 5px;
+     
+  }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+  .cases .des{
+
+    font-size: 15px;
+    color: black;
+  }
+
+  .cases .stat{
+    font-size: 15px;
+  }
+
+  .cases .type{
+    font-size: 30px;
+  }
+
+  .clientName{
+    /* border-bottom: 0px solid black;
+  background-color: rgb(50, 0, 85);
+  border-radius: 0px; */
+  }
+
+  .table .th .td{
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  .tr .td{
+    padding: 5px;
+    text-align: left;
+  }
+
+  .cases-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .cases-table th,
+  .cases-table td {
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .cases-table th {
+    background-color: #f2f2f2;
+  }
+  
