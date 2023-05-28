@@ -1,12 +1,27 @@
 import Navbar from './components/navbar';
-import firebase from "./firebase";
 import Home from './pages/home';
+import db from "./firebase";
 import { useState, useEffect } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
 
 function App() {
-  const ref = firebase.firestore().collection("cases");
+  const ref = db.collection("cases");
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
+  const [documentCount, setDocumentCount] = useState(null);
+
+  const getDocumentCount = async () => {
+    const querySnapshot = await getDocs(collection(db, 'cases'));
+    return querySnapshot.size;
+  };
+
+  console.log(ref);
+
+  const fetchDocumentCount = async () => {
+    const count = await getDocumentCount('cases');
+    setDocumentCount(count);
+    console.log(count);
+  };
 
   function getData() {
     ref.onSnapshot((querySnapshot) => {
@@ -20,6 +35,7 @@ function App() {
   }
 
   useEffect(() => {
+    fetchDocumentCount();
     getData();
   }, []);
 
@@ -47,6 +63,14 @@ function App() {
         </table>
       )}
       <div className="content">
+
+      <div>
+      {documentCount !== null ? (
+        <p>number of cases: {documentCount}</p>
+      ) : (
+        <p>Loading document count...</p>
+      )}
+    </div>
         {/* <Home/> */}
       </div>
     </div>
