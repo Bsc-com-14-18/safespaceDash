@@ -7,6 +7,7 @@ const Home = () => {
     const [data, setData] = useState([]);
     const [loader, setLoader] = useState(true);
     const [documentCount, setDocumentCount] = useState(null);
+    //function usedto get cases
   
     const getDocumentCount = async () => {
       const querySnapshot = await getDocs(collection(db, 'cases'));
