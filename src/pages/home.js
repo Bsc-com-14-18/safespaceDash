@@ -1,78 +1,92 @@
-import db from "../firebase";
-import { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { useState, useEffect, useContext } from 'react';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { useAuth } from './auth/auth';
+import db from '../firebase';
+import { auth } from '../firebase';
+
 
 const Home = () => {
-    const ref = db.collection("cases");
-    const [data, setData] = useState([]);
-    const [loader, setLoader] = useState(true);
-    const [documentCount, setDocumentCount] = useState(null);
-    //function usedto get cases
-  
-    const getDocumentCount = async () => {
-      const querySnapshot = await getDocs(collection(db, 'cases'));
-      return querySnapshot.size;
-    };
-  
-    console.log(ref);
-  
-    const fetchDocumentCount = async () => {
-      const count = await getDocumentCount('cases');
-      setDocumentCount(count);
-      console.log(count);
-    };
-  
-    function getData() {
-      ref.onSnapshot((querySnapshot) => {
-        const items = [];
-        querySnapshot.forEach((doc) => {
-          items.push(doc.data());
-        });
-        setData(items);
-        setLoader(false);
-      });
-    }
-  
-    useEffect(() => {
-      fetchDocumentCount();
-      getData();
-    }, []);
+  const { user } = useAuth();
+  const [data, setData] = useState([]);
+  const [loader, setLoader] = useState(true);
+  const [documentCount, setDocumentCount] = useState(null);
 
-    return ( 
-        <div className="A">
-        {!loader && (
-          <table className="cases-table">
-            <thead>
-              <tr>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((dev) => (
-                <tr key={dev.client_id}>
-                  <td>{dev.type}</td>
-                  <td>{dev.status}</td>
-                  <td>{dev.description}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-        <div className="content">
-  
-        <div>
-        {documentCount !== null ? (
-          <p>number of cases: {documentCount}</p>
-        ) : (
-          <p>Loading document count...</p>
-        )}
-      </div>
-          {/* <Home/> */}
-        </div>
-      </div>
-     );
-}
  
+ 
+
+  const [caseType, setCaseType] = useState('');
+  
+  const [matchingCases, setMatchingCases] = useState([]);
+
+  useEffect(() => {
+    const fetchHandlerCaseType = async () => {
+      try {
+        const handlerId = auth.currentUser.uid;
+
+        const q = query(collection(db, 'hanlderCaseType'), where('handlerId', '==', handlerId));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          console.log('No matching documents.');
+          return;
+        }
+        const handlerCaseType = querySnapshot.docs[0].data().caseTypeId;
+        setCaseType(handlerCaseType.trim());
+
+      // Retrieve cases with matching caseTypeId, assignedTo, and other conditions
+      const casesQuery = query(collection(db, 'cases'), 
+        where('type', '==', 'harassement')
+        // Add more conditions if needed
+      );
+
+      const casesSnapshot = await getDocs(casesQuery);
+      const cases = casesSnapshot.docs.map(doc => doc.data());
+      setMatchingCases(cases);
+      console.log('Cases:', cases);
+      } catch (error) {
+        console.error('Error fetching handler case type:', error);
+      }
+    }; 
+
+    fetchHandlerCaseType();
+  }, []);
+
+
+ 
+  return (
+    <div className="A">
+      <h1>hello</h1>
+      <h2>Handler's Case Type: {caseType}</h2>
+
+      <ul>
+        {matchingCases.map((caseData) => (
+          <li key={caseData.client_id}>{caseData.description}</li>
+        ))}
+      </ul>
+      {/* {!loader ? (
+        <table className="cases-table">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((caseItem) => (
+              <tr key={caseItem.client_id}>
+                <td>{caseItem.type}</td>
+                <td>{caseItem.status}</td>
+                <td>{caseItem.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>Loading...</p>
+      )} */}
+    </div>
+  );
+};
+
 export default Home;
