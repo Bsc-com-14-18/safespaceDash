@@ -51,55 +51,8 @@ const Home = () => {
     fetchHandlerCaseType();
   }, []);
 
-  const fetchCasesByType = async () => {
-    try {
-      const q = query(collection(db, 'cases'), where('type', '==', caseType));
-      const querySnapshot = await getDocs(q);
-      const cases = [];
-      querySnapshot.forEach((doc) => {
-        const caseData = doc.data();
-        cases.push(caseData);
-        
-      });
-      
-      setMatchingCases(cases);
 
-
-    } catch (error) {
-      console.error('Error fetching cases by type:', error);
-    }
-  };
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       // Get the handler's case type based on the handler ID
-  //       const handlerCaseTypeQuerySnapshot = await getDocs(
-  //         query(
-  //           collection(db, 'hanlderCaseType'),
-  //           where('handlerId', '==', user.uid)
-  //         )
-  //       );
-  //       console.log(handlerCaseTypeQuerySnapshot);
-  //       const handlerCaseType = handlerCaseTypeQuerySnapshot.docs[0].data().caseTypeId;
-
-  //       // Get the cases based on the handler's case type
-  //       const casesQuerySnapshot = await getDocs(
-  //         query(collection(db, 'cases'), where('type', '==', handlerCaseType))
-  //       );
-
-  //       const cases = casesQuerySnapshot.docs.map((doc) => doc.data());
-  //       setData(cases);
-  //       setLoader(false);
-  //     } catch (error) {
-  //       console.log(error);
-  //       // Handle error
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [user]);
-
+ 
   return (
     <div className="A">
       <h1>hello</h1>

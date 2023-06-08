@@ -7,6 +7,8 @@ import Profile from './components/profile';
 import { AuthProvider } from './pages/auth/auth';
 import { Login } from './pages/auth/signin';
 import { RequireAuth } from './components/RequireAuth';
+import Sidebar from './components/sidebar';
+import Header from './components/header/Header';
 function App() {
   return (
     <AuthProvider>
@@ -15,6 +17,7 @@ function App() {
     
     <Routes>
         <Route index element={<Login />} />
+       
 
         <Route
           path='/dashboard'
