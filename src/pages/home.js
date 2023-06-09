@@ -53,38 +53,19 @@ const Home = () => {
 
 
  
-  return (
+   return (
     <div className="A">
       <h1>hello</h1>
       <h2>Handler's Case Type: {caseType}</h2>
 
-      <ul>
-        {matchingCases.map((caseData) => (
-          <li key={caseData.client_id}>{caseData.description}</li>
+      <ol className="numbered-list">
+        {matchingCases.map((caseData, index) => (
+          <li key={caseData.client_id} className="case-item">
+            <span className="number">{index + 1}.</span>
+            <span className="description">{caseData.description}</span>
+          </li>
         ))}
-      </ul>
-      {/* {!loader ? (
-        <table className="cases-table">
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Status</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((caseItem) => (
-              <tr key={caseItem.client_id}>
-                <td>{caseItem.type}</td>
-                <td>{caseItem.status}</td>
-                <td>{caseItem.description}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <p>Loading...</p>
-      )} */}
+      </ol>
     </div>
   );
 };

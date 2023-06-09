@@ -92,3 +92,94 @@
     background-color: #f2f2f2;
   }
   
+
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid black;
+    max-width: 400px;
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  .logo {
+    display: block;
+    margin: 0 auto 20px;
+    width: 100px; /* Adjust the width as needed */
+    height: auto;
+    background-color: rgb(35, 0, 130);
+  }
+  
+  .login-container label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    
+  }
+  
+  .login-container label span {
+    flex-basis: 100px;
+  }
+  
+  .login-container input[type="email"]{
+    padding: 8px;
+    margin-left: 28px;
+    width: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+  }
+  .login-container input[type="password"] {
+    padding: 8px;
+    margin-left: 10px;
+    width: 100%;
+    border: 1px solid black;
+    box-sizing: border-box;
+  }
+  
+  .login-container button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: 30%;
+    margin-left: -10px;
+    border-radius: 5px;
+  }
+  
+  .login-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  
+  .numbered-list {
+    list-style: none;
+    counter-reset: case-counter;
+    padding-left: 0;
+  }
+  
+  .numbered-list .case-item {
+    display: flex;
+    align-items: center;
+    padding-left: 10px; /* Adjust the padding value as needed */
+  }
+  
+  .numbered-list .number {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  
+  .numbered-list .description {
+    white-space: pre-wrap;
+  }
+  
