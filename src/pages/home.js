@@ -35,7 +35,7 @@ const Home = () => {
 
       // Retrieve cases with matching caseTypeId, assignedTo, and other conditions
       const casesQuery = query(collection(db, 'cases'), 
-        where('type', '==', 'harassement')
+        where('type', '==', caseType.trim())
         // Add more conditions if needed
       );
 

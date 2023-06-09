@@ -9,11 +9,14 @@ import { Login } from './pages/auth/signin';
 import { RequireAuth } from './components/RequireAuth';
 import Sidebar from './components/sidebar';
 import Header from './components/header/Header';
+import PermanentDrawerLeft from './components/header/Header';
+import CustomizedTables from './components/header/Header';
 function App() {
   return (
     <AuthProvider>
   <div className="app">
     <Navbar/>
+    
     
     <Routes>
         <Route index element={<Login />} />
@@ -24,6 +27,7 @@ function App() {
           element={
             <RequireAuth>
               <Home />
+              <CustomizedTables/>
             </RequireAuth>
           }
         />

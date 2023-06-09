@@ -19,7 +19,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchHandlerData = async () => {
       try {
-        const handlerId = auth.currentUser.ui;
+        const handlerId = auth.currentUser.uid;
         console.log(handlerId)
 
         const q = query(collection(db, 'handlers'), where('handlerId', '==', handlerId));
