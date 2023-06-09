@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './auth';
 import { auth } from '../../firebase';
+import logo from './white.png'
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -23,14 +24,19 @@ export const Login = () => {
   };
 
   return (
-    <div>
-      <label>
-        Email: <input type='email' onChange={e => setEmail(e.target.value)} />
-      </label>{' '}
-      <label>
-        Password: <input type='password' onChange={e => setPassword(e.target.value)} />
-      </label>{' '}
-      <button onClick={handleLogin}>Login</button>
+    <div className="login-container">
+      <div className="login-form">
+        <img src={logo} alt="Logo" className="logo" />
+        <label>
+          Email: <input type="email" onChange={(e) => setEmail(e.target.value)} />
+        </label>
+        <label>
+          Password: <input type="password" onChange={(e) => setPassword(e.target.value)} />
+        </label>
+        <button onClick={handleLogin}>Login</button>
+      </div>
     </div>
   );
+  
+  
 };
