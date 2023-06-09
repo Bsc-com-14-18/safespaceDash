@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './auth';
 import { auth } from '../../firebase';
-import logo from './white.png'
+import logo from './white.png';
+import { toast, ToastContainer } from 'react-toastify';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,15 +14,22 @@ export const Login = () => {
   const handleLogin = async () => {
     try {
       await auth.signInWithEmailAndPassword(email, password);
-      login(email); // Assuming you want to use the email as the user identifiers
-     
+      login(email); // Assuming you want to use the email as the user identifier
       
-      navigate('/');
+      // Display success toast
+      toast.success('Successfully logged in');
+      
+      // Clear email and password inputs
+      setEmail('');
+      setPassword('');
+      
+      navigate('/dashboard');
     } catch (error) {
       console.log(error);
       // Handle error
     }
   };
+   // Empty dependency array to ensure the effect runs only once
 
   return (
     <div className="login-container">
@@ -37,6 +45,4 @@ export const Login = () => {
       </div>
     </div>
   );
-  
-  
 };
