@@ -19,7 +19,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchHandlerData = async () => {
       try {
-        const handlerId = auth.currentUser.ui;
+        const handlerId = auth.currentUser.uid;
         console.log(handlerId)
 
         const q = query(collection(db, 'handlers'), where('handlerId', '==', handlerId));
@@ -41,14 +41,16 @@ const Profile = () => {
   }, [auth.currentUser]);
 
   return (
-    <div >
+    <div className="profile-container">
       {handlerData ? (
         <div>
           <h2>Welcome {handlerData.name}</h2>
           <p>Email: {handlerData.email}</p>
           <p>Handler ID: {handlerData.handlerId}</p>
           {/* Render other handler details */}
-          <button onClick={handleLogout}>Logout</button>
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       ) : (
         <p>Loading handler data...</p>
