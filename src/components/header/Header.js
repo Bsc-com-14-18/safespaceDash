@@ -1,98 +1,92 @@
-import { useState, useEffect, useContext } from 'react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import React from 'react'
+import logo from '../../images/purple.png';
+import './Header.css'
+import { Routes, Route, Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../pages/auth/auth';
-import db from '../../firebase';
-import { auth } from '../../firebase';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import './index'
+import Dashboard from '../dashboard/dashboard';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  '&.MuiTableCell-head': {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  '&.MuiTableCell-body': {
-    fontSize: 14,
-  },
-}));
+function Header() {
+  const auth = useAuth()
+  const navigate = useNavigate();
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
-
-export default function CustomizedTables() {
-  const [caseType, setCaseType] = useState('');
-  
-  const [matchingCases, setMatchingCases] = useState([]);
-  console.log(matchingCases);
-
-  useEffect(() => {
-    const fetchHandlerCaseType = async () => {
-      try {
-        const handlerId = auth.currentUser.uid;
-
-        const q = query(collection(db, 'hanlderCaseType'), where('handlerId', '==', handlerId));
-        const querySnapshot = await getDocs(q);
-
-        if (querySnapshot.empty) {
-          console.log('No matching documents.');
-          return;
-        }
-        const handlerCaseType = querySnapshot.docs[0].data().caseTypeId;
-        setCaseType(handlerCaseType);
-
-      // Retrieve cases with matching caseTypeId, assignedTo, and other conditions
-      const casesQuery = query(collection(db, 'cases'), 
-        where('type', '==', caseType.trim())
-        // Add more conditions if needed
-      );
-
-      const casesSnapshot = await getDocs(casesQuery);
-      const cases = casesSnapshot.docs.map(doc => doc.data());
-      setMatchingCases(cases);
-      console.log('Cases:', cases);
-      } catch (error) {
-        console.error('Error fetching handler case type:', error);
-      }
-    }; 
-
-    fetchHandlerCaseType();
-  }, []);
-
-
+  const handleLogout = () => {
+    auth.logout();
+    navigate('/');
+  };
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ maxWidth: 70 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            {/* <StyledTableCell>Name</StyledTableCell> */}
-            <StyledTableCell align="right">Description</StyledTableCell>
-            <StyledTableCell align="right">Status</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {matchingCases.map((caseItem) => (
-            <StyledTableRow key={caseItem.client_id}>
-              {/* <StyledTableCell component="th" scope="row">
-                {caseItem.name}
-              </StyledTableCell> */}
-              <StyledTableCell align="right">{caseItem.description}</StyledTableCell>
-              <StyledTableCell align="right">{caseItem.status}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+    <div className='header'>Header
+      <nav>
+        <div className="logo-name">
+          <div className="logo-image">
+            <img src={logo} alt="" />
+          </div>
+          <span className="logo_name">
+            safeSpace
+          </span>
+        </div>
+        
+
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li>
+                <a href="#">
+                  
+                    <i class="uil uil-estate"></i>
+                    <span class="link-name"><NavLink to="/dashboard">Dashboard</NavLink></span>
+                    </a>
+                </li>
+                <li><a href="#">
+                    <i class="uil uil-user-circle"></i>
+                    <span class="link-name">   
+                       <NavLink to="/profile">profile</NavLink>
+                    </span>
+                </a></li>
+                <li><a href="#">
+                    <i class="uil uil-chart"></i>
+                    <span class="link-name">Analytics</span>
+                </a></li>
+                <li><a href="#">
+                <i class="uil uil-envelope-open"></i>
+                    <span class="link-name">resolved cases</span>
+                </a></li>
+                <li><a href="#">
+                <i class="uil uil-envelope"></i>
+                    <span class="link-name">unread cases</span>
+                </a></li>
+
+                {!auth.user && (
+                                  <li><a href="#">
+                                  <i class="uil uil-signin"></i>
+                                      <span class="link-name">   <NavLink to='/login' >
+                                        Login
+                                         </NavLink></span>
+                                  </a></li>
+                 )}
+
+            </ul>
+            
+            <ul class="logout-mode">
+                <li><a href="#">
+                    <i class="uil uil-signout"></i>
+                    <span class="link-name" onClick={handleLogout}>Logout</span>
+                </a></li>
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                    <span class="link-name">Dark Mode</span>
+                </a>
+                <div class="mode-toggle">
+                  <span class="switch"></span>
+                </div>
+            </li>
+            </ul>
+        </div>
+      </nav>
+
+    
+    </div>
+  )
 }
+
+export default Header
