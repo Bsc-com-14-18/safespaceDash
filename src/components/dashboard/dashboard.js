@@ -1,7 +1,72 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import './dashboard.css'
+import Sidebar from '../sidebar'
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import db from '../../firebase';
+import Cases from '../cases/Cases';
+import Home from '../../pages/home';
 
 function Dashboard() {
+    const [totalCases, setTotalCases] = useState([]);
+    const [unresolvedCount, setUnresolvedCount] = useState([]);
+    const [resolvedCount, setResolvedCount] = useState([]);
+
+//fetch number of resolved
+//fetch unresolved cases
+const fetchResolvedCases = async () => {
+    try {
+      const q = query(collection(db, 'cases'), where('status', '==', 'resolved'));
+      const querySnapshot = await getDocs(q);
+  
+      const resolvedCount = querySnapshot.size;
+      console.log(resolvedCount)
+      // Update the state variable or perform any other necessary action
+      setResolvedCount(resolvedCount );
+    } catch (error) {
+      console.error('Error fetching unresolved cases:', error);
+    }
+  };
+
+//fetch number of unresolved cases
+    const fetchUnresolvedCases = async () => {
+        try {
+          const q = query(collection(db, 'cases'), where('status', '==', 'not resolved'));
+          const querySnapshot = await getDocs(q);
+      
+          const unresolvedCount = querySnapshot.size;
+          // Update the state variable or perform any other necessary action
+          setUnresolvedCount(unresolvedCount || 0);
+        } catch (error) {
+          console.error('Error fetching unresolved cases:', error);
+        }
+      };
+      
+  
+    const fetchCasesData = async () => {
+        try {
+          const q = collection(db, 'cases');
+          const querySnapshot = await getDocs(q);
+      
+          if (querySnapshot.empty) {
+            console.log('No cases found.');
+            return;
+          }
+      
+          const totalCases = querySnapshot.size;
+          // Update the state variable or perform any other necessary action
+          setTotalCases(totalCases);
+        } catch (error) {
+          console.error('Error fetching cases data:', error);
+        }
+      };
+
+      useEffect(() => {
+        fetchResolvedCases()
+        fetchUnresolvedCases()
+        fetchCasesData();
+      }, []);
+      
+    
   return (
     <section class="dashboard">
         <div class="top">
@@ -20,24 +85,28 @@ function Dashboard() {
                     <span class="text">Dashboard</span>
                 </div>
                 <div class="boxes">
-                    <div class="box box1">
-                        <i class="uil uil-thumbs-up"></i>
-                        <span class="text">Total Likes</span>
-                        <span class="number">50,120</span>
+                  <div class="box box1">
+                    <i class="uil uil-thumbs-up"></i>
+                    <span class="text">Total received cases</span>
+                    <span class="number">{totalCases}</span>
                     </div>
+
                     <div class="box box2">
-                        <i class="uil uil-comments"></i>
-                        <span class="text">Comments</span>
-                        <span class="number">20,120</span>
+                    <i class="uil uil-comments"></i>
+                    <span class="text">unresolved</span>
+                    <span class="number">{unresolvedCount}</span>
                     </div>
+
                     <div class="box box3">
                         <i class="uil uil-share"></i>
-                        <span class="text">Total Share</span>
-                        <span class="number">10,120</span>
+                        <span class="text">resoved cases</span>
+                        <span class="number">{resolvedCount}</span>
                     </div>
                 </div>
             </div>
-            <div class="activity">
+            {/* <Home/> */}
+            {/* <Cases/> */}
+            {/* <div class="activity">
                 <div class="title">
                     <i class="uil uil-clock-three"></i>
                     <span class="text">Recent Activity</span>
@@ -94,7 +163,8 @@ function Dashboard() {
                         <span class="data-list">Liked</span>
                     </div>
                 </div>
-            </div>
+            </div> */}
+           
         </div>
     </section>
 
