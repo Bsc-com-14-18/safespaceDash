@@ -9,13 +9,12 @@ import { Login } from './pages/auth/signin';
 import { RequireAuth } from './components/RequireAuth';
 import Sidebar from './components/sidebar';
 import Header from './components/header/Header';
-import PermanentDrawerLeft from './components/header/Header';
-import CustomizedTables from './components/header/Header';
+import Dashboard from './components/dashboard/dashboard';
 function App() {
   return (
     <AuthProvider>
   <div className="app">
-    <Navbar/>
+    <Header/>
     
     
     <Routes>
@@ -26,8 +25,10 @@ function App() {
           path='/dashboard'
           element={
             <RequireAuth>
-              <Home />
-              <CustomizedTables/>
+                  
+<section>
+  <Dashboard/>
+</section>
             </RequireAuth>
           }
         />
