@@ -3,8 +3,10 @@ import './dashboard.css'
 import Sidebar from '../sidebar'
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import db from '../../firebase';
-import Cases from '../cases/Cases';
 import Home from '../../pages/home';
+import { Cases } from '../cases/Cases';
+import { PieChart } from '../cases/Pie';
+import CasesTable from '../analytics/Analytics';
 
 function Dashboard() {
     const [totalCases, setTotalCases] = useState([]);
@@ -70,6 +72,7 @@ const fetchResolvedCases = async () => {
   return (
     <section class="dashboard">
         <div class="top">
+        <i class="uil uil-bell sidebar-toggle"></i>
             
             <div class="search-box">
                 <i class="uil uil-search"></i>
@@ -86,7 +89,7 @@ const fetchResolvedCases = async () => {
                 </div>
                 <div class="boxes">
                   <div class="box box1">
-                    <i class="uil uil-thumbs-up"></i>
+                  <i class="uil uil-arrow-down"></i>
                     <span class="text">Total received cases</span>
                     <span class="number">{totalCases}</span>
                     </div>
@@ -98,14 +101,24 @@ const fetchResolvedCases = async () => {
                     </div>
 
                     <div class="box box3">
-                        <i class="uil uil-share"></i>
+                    <i class="uil uil-check"></i>
                         <span class="text">resoved cases</span>
                         <span class="number">{resolvedCount}</span>
                     </div>
                 </div>
             </div>
+            <br/>
+           
             {/* <Home/> */}
-            {/* <Cases/> */}
+            <div style={{ display: "flex" }}>
+      <div style={{ flex: 1 }}>
+        <Cases />
+      </div>
+      <div style={{ flex: 1 }}>
+        <PieChart />
+      </div>
+    </div>
+
             {/* <div class="activity">
                 <div class="title">
                     <i class="uil uil-clock-three"></i>

@@ -1,28 +1,20 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { useAuth } from './auth/auth';
-import db from '../firebase';
-import { auth } from '../firebase';
-
+import db, { auth } from '../firebase';
 
 const Home = () => {
   const { user } = useAuth();
   const [data, setData] = useState([]);
   const [loader, setLoader] = useState(true);
   const [documentCount, setDocumentCount] = useState(null);
-
- 
- 
-
   const [caseType, setCaseType] = useState('');
-  
   const [matchingCases, setMatchingCases] = useState([]);
 
   useEffect(() => {
     const fetchHandlerCaseType = async () => {
       try {
         const handlerId = auth.currentUser.uid;
-
         const q = query(collection(db, 'hanlderCaseType'), where('handlerId', '==', handlerId));
         const querySnapshot = await getDocs(q);
 
@@ -30,30 +22,28 @@ const Home = () => {
           console.log('No matching documents.');
           return;
         }
+
         const handlerCaseType = querySnapshot.docs[0].data().caseTypeId;
-        setCaseType(handlerCaseType.trim());
+        const trimmedCaseType = handlerCaseType.trim();
+        setCaseType(trimmedCaseType);
 
-      // Retrieve cases with matching caseTypeId, assignedTo, and other conditions
-      const casesQuery = query(collection(db, 'cases'), 
-        where('type', '==', caseType.trim())
+        // Retrieve cases with matching caseTypeId, assignedTo, and other conditions
+        const casesQuery = query(collection(db, 'cases'), where('type', '==', trimmedCaseType));
         // Add more conditions if needed
-      );
 
-      const casesSnapshot = await getDocs(casesQuery);
-      const cases = casesSnapshot.docs.map(doc => doc.data());
-      setMatchingCases(cases);
-      console.log('Cases:', cases);
+        const casesSnapshot = await getDocs(casesQuery);
+        const cases = casesSnapshot.docs.map((doc) => doc.data());
+        setMatchingCases(cases);
+        console.log('Cases:', cases);
       } catch (error) {
         console.error('Error fetching handler case type:', error);
       }
-    }; 
+    };
 
     fetchHandlerCaseType();
   }, []);
 
-
- 
-   return (
+  return (
     <div className="A">
       <h1>hello</h1>
       <h2>Handler's Case Type: {caseType}</h2>
@@ -71,3 +61,25 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+// const querySnapshot = await firestore
+//   .collection('hanlderCaseType')
+//   .where('handlerId', '==', handlerId)
+//   .get();
+
+//   const caseTypes = [];
+// querySnapshot.forEach((doc) => {
+//   const caseType = doc.data().caseTypeId;
+//   caseTypes.push(caseType);
+// });
+// const caseSnapshot = await firestore
+//   .collection('cases')
+//   .whereIn('type', caseTypes)
+//   .get();
+//   const cases = [];
+//   caseSnapshot.forEach((doc) => {
+//     const caseData = doc.data();
+//     cases.push(caseData);
+//   });
