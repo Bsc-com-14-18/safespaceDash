@@ -3,6 +3,10 @@
   font-family: 'Times New Roman', Times, serif;
   color: black;
   }
+
+  body {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+  }
   
   .navbar{
   padding: 20px;

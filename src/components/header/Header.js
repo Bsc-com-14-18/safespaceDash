@@ -42,17 +42,25 @@ function Header() {
                        <NavLink to="/profile">profile</NavLink>
                     </span>
                 </a></li>
-                <li><a href="#">
-                    <i class="uil uil-chart"></i>
-                    <span class="link-name">Analytics</span>
-                </a></li>
-                <li><a href="#">
-                <i class="uil uil-envelope-open"></i>
-                    <span class="link-name">resolved cases</span>
-                </a></li>
+              
                 <li><a href="#">
                 <i class="uil uil-envelope"></i>
-                    <span class="link-name">unread cases</span>
+                    <span class="link-name"><NavLink to="/unreadcases">unread cases</NavLink></span>
+                </a></li>
+
+                            
+                <li><a href="#">
+                <i class="uil uil-envelope-open"></i>
+                <span class="link-name">   <NavLink to='/resolved' >
+                                        resolved cases
+                                         </NavLink></span>
+                </a></li>
+
+                <li><a href="#">
+                <i class="uil uil-envelope-open"></i>
+                <span class="link-name">   <NavLink to='/allcases' >
+                                        all cases
+                                         </NavLink></span>
                 </a></li>
 
                 {!auth.user && (

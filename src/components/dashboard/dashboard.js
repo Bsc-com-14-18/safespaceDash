@@ -7,6 +7,7 @@ import Home from '../../pages/home';
 import { Cases } from '../cases/Cases';
 import { PieChart } from '../cases/Pie';
 import CasesTable from '../analytics/Analytics';
+import Table from '../sidebar';
 
 function Dashboard() {
     const [totalCases, setTotalCases] = useState([]);
@@ -118,6 +119,8 @@ const fetchResolvedCases = async () => {
         <PieChart />
       </div>
     </div>
+    {/* <CasesTable/> */}
+    {/* <Table/> */}
 
             {/* <div class="activity">
                 <div class="title">
