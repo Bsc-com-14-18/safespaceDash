@@ -4,6 +4,7 @@ import { useAuth } from './auth';
 import { firebaseApp } from '../../firebase'; // Importing firebaseApp from your Firebase setup
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import logo from './white.png';
 import './sign.css';
 
@@ -12,51 +13,55 @@ const auth = getAuth(firebaseApp);
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); // Loading state
   const navigate = useNavigate();
   const { login } = useAuth();
 
-const handleLogin = async () => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+  const handleLogin = async () => {
+    try {
+      setLoading(true); // Set loading state to true
 
-    // Retrieve the user's role from the 'handlers' collection
-    const handlersRef = firebaseApp.firestore().collection('handlers');
-    const userSnapshot = await handlersRef.doc(user.uid).get();
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-    if (userSnapshot.exists) {
-      const userData = userSnapshot.data();
+      // Retrieve the user's role from the 'handlers' collection
+      const handlersRef = firebaseApp.firestore().collection('handlers');
+      const userSnapshot = await handlersRef.doc(user.uid).get();
 
-      if (userData.role === 'admin') {
-        // User is an admin, proceed with login
-        login(email);
+      if (userSnapshot.exists) {
+        const userData = userSnapshot.data();
 
-        // Display success toast
-        toast.success('Successfully logged in');
+        if (userData.role === 'admin') {
+          // User is an admin, proceed with login
+          login(email);
 
-        // Clear email and password inputs
-        setEmail('');
-        setPassword('');
+          // Display success toast
+          toast.success('Successfully logged in');
 
-        navigate('/dashboard');
-        return;
+          // Clear email and password inputs
+          setEmail('');
+          setPassword('');
+
+          navigate('/dashboard');
+          return;
+        }
       }
+
+      // User is not an admin or doesn't exist in the 'handlers' collection
+      throw new Error('Unauthorized access');
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false); // Set loading state to false
     }
 
-    // User is not an admin or doesn't exist in the 'handlers' collection
-    throw new Error('Unauthorized access');
-  } catch (error) {
-    console.log(error);
-
-    // Display error toast
+    // Display error toast after setting loading state to false
     toast.error('Unauthorized access');
 
     // Clear email and password inputs
     setEmail('');
     setPassword('');
-  }
-};
-
+  };
 
   return (
     <div className="text-center">
@@ -93,10 +98,18 @@ const handleLogin = async () => {
           className="w-100 btn btn-lg btn-primary"
           type="submit"
           onClick={handleLogin}
+          disabled={loading} // Disable the button while loading
         >
-          Sign in
+          {loading ? ( // Display loading spinner if loading, otherwise display "Sign in" text
+            <div className="spinner-border spinner-border-sm" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          ) : (
+            'Sign in'
+          )}
         </button>
       </main>
+      <ToastContainer /> {/* Add ToastContainer outside the main element */}
     </div>
   );
 };
