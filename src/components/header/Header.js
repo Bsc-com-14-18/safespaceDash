@@ -84,9 +84,9 @@ function Header() {
                         {/* <i class="uil uil-moon"></i>
                     <span class="link-name">Dark Mode</span> */}
                 </a>
-                <div class="mode-toggle">
+                {/* <div class="mode-toggle">
                   <span class="switch"></span>
-                </div>
+                </div> */}
             </li>
             </ul>
         </div>
