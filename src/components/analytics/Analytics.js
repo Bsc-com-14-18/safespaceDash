@@ -61,7 +61,7 @@ function CasesTable() {
   const getStatusBadgeColor = (status) => {
     if (status === 'resolved') {
       return 'success';
-    } else if (status === 'unresolved') {
+    } else if (status === 'not resolved') {
       return 'primary';
     }
     return 'primary';
@@ -70,10 +70,10 @@ function CasesTable() {
   const getStatusBadgeLabel = (status) => {
     if (status === 'resolved') {
       return 'resolved';
-    } else if (status === 'unresolved') {
-      return 'unresolved';
+    } else if (status === 'not resolved') {
+      return 'not resolved';
     }
-    return 'unresolved';
+    return 'not resolved';
   };
 
   return (
@@ -82,6 +82,7 @@ function CasesTable() {
       <MDBTable align='middle'>
         <MDBTableHead>
           <tr>
+            <th scope='col' className='fw-bold'>#</th> {/* New column for numbering */}
             <th scope='col' className='fw-bold'>Client ID</th>
             <th scope='col'>Description</th>
             <th scope='col'>Gender</th>
@@ -92,8 +93,9 @@ function CasesTable() {
           </tr>
         </MDBTableHead>
         <MDBTableBody>
-          {cases.map((caseItem) => (
+          {cases.map((caseItem, index) => (
             <tr key={caseItem.id}>
+              <td>{index + 1}</td> {/* Display the index + 1 */}
               <td>{caseItem.client_id}</td>
               <td>{caseItem.description}</td>
               <td>{caseItem.gender}</td>
@@ -128,7 +130,7 @@ function CasesTable() {
             </MDBModalHeader>
             <MDBModalBody>
               Are you sure you want to change the status of this case to{' '}
-              {selectedCase && selectedCase.status === 'resolved' ? 'unresolved' : 'resolved'}?
+              {selectedCase && selectedCase.status === 'resolved' ? 'not resolved' : 'resolved'}?
             </MDBModalBody>
             <MDBModalFooter>
               <MDBBtn color='secondary' onClick={closeEditModal}>
@@ -138,7 +140,7 @@ function CasesTable() {
                 onClick={() =>
                   updateCaseStatus(
                     selectedCase.id,
-                    selectedCase && selectedCase.status === 'resolved' ? 'unresolved' : 'resolved'
+                    selectedCase && selectedCase.status === 'resolved' ? 'not resolved' : 'resolved'
                   )
                 }
               >

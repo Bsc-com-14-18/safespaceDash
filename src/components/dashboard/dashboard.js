@@ -22,9 +22,8 @@ const fetchResolvedCases = async () => {
       const querySnapshot = await getDocs(q);
   
       const resolvedCount = querySnapshot.size;
-      console.log(resolvedCount)
       // Update the state variable or perform any other necessary action
-      setResolvedCount(resolvedCount );
+      setResolvedCount(resolvedCount || 0);
     } catch (error) {
       console.error('Error fetching unresolved cases:', error);
     }
@@ -50,10 +49,7 @@ const fetchResolvedCases = async () => {
           const q = collection(db, 'cases');
           const querySnapshot = await getDocs(q);
       
-          if (querySnapshot.empty) {
-            console.log('No cases found.');
-            return;
-          }
+         
       
           const totalCases = querySnapshot.size;
           // Update the state variable or perform any other necessary action

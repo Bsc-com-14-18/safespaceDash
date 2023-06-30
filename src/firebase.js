@@ -2,6 +2,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import 'firebase/compat/auth';
 
+import { getMessaging } from "firebase/messaging";
 
 
 const firebaseConfig = {
@@ -18,7 +19,8 @@ const db = firebase.firestore();
 // Initialize Firebase
 ;
 const auth = firebase.auth();
-export { firebaseApp, firebaseConfig, auth };
+const messaging = getMessaging(firebaseApp);
+export { firebaseApp, firebaseConfig, auth, messaging };
 
 
   
