@@ -83,7 +83,8 @@ function CasesTable() {
         <MDBTableHead>
           <tr>
             <th scope='col' className='fw-bold'>#</th> {/* New column for numbering */}
-            <th scope='col' className='fw-bold'>Client ID</th>
+            {/* <th scope='col' className='fw-bold'>Client ID</th> */}
+            <th scope='col'>phone number</th>
             <th scope='col'>Description</th>
             <th scope='col'>Gender</th>
             <th scope='col'>Location</th>
@@ -96,7 +97,8 @@ function CasesTable() {
           {cases.map((caseItem, index) => (
             <tr key={caseItem.id}>
               <td>{index + 1}</td> {/* Display the index + 1 */}
-              <td>{caseItem.client_id}</td>
+              {/* <td>{caseItem.client_id}</td> */}
+              <td>{caseItem.phone_number}</td>
               <td>{caseItem.description}</td>
               <td>{caseItem.gender}</td>
               <td>{caseItem.assignedTo}</td>
