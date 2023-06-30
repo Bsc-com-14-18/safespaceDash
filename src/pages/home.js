@@ -95,7 +95,6 @@ const Home = () => {
           <th scope='col'>Phone Number</th>
           <th scope='col'>Status</th>
           <th scope='col'>Type</th>
-          <th scope='col'>Date Sent</th> 
           <th scope='col'>Actions</th>
         </tr>
       </MDBTableHead>
@@ -114,7 +113,6 @@ const Home = () => {
               </MDBBadge>
             </td>
             <td>{caseData.type}</td>
-            <td>{caseData.formattedDateSent}</td> 
             <td>
               <MDBBtn color='link' rounded size='sm' onClick={() => openEditModal(caseData)}>
                 Edit
